@@ -15,13 +15,13 @@ const AddContact = (props) => {
     phoneNumber: '',
   });
   const [isEdit, setIsEdit] = useState(false);
+  const [contactId, setContactId] = useState(0);
   const { fullName, phoneNumber } = formData;
-  let id;
 
   useEffect(() => {
     const contact = props.contact.contact;
     if (contact) {
-      id = contact.id;
+      setContactId(contact.id);
       setFormData({
         ...formData,
         fullName: contact.full_name,
@@ -39,14 +39,17 @@ const AddContact = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    const contactData = {
+      full_name: fullName,
+      phone_number: phoneNumber,
+    };
+
     if (isEdit) {
-      props.updateContact(id, formData);
+      props.updateContact(contactId, contactData);
     } else {
-      props.addContact({
-        full_name: fullName,
-        phone_number: phoneNumber,
-      });
+      props.addContact(contactData);
     }
+
     props.contentToBeUpdated(null);
     navigate('/');
   };

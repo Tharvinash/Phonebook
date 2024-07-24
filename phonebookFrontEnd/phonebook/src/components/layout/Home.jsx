@@ -20,7 +20,7 @@ const Home = (props) => {
     full_name: '',
     phone_number: '',
   });
-  
+
   if (!props.contacts) {
     return <div>Loading...</div>;
   }

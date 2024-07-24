@@ -7,7 +7,7 @@ import {
 const initialState = {
   contacts: [],
   deletedId: 0,
-  contact: null
+  contact: null,
 };
 
 function contactsReducer(state = initialState, action) {

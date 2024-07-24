@@ -6,9 +6,18 @@ export const getContacts = () => async (dispatch) => {
     const res = await axios.get(
       'http://localhost:8000/api/contacts/?format=json'
     );
+    const sortedData = res.data.sort((a, b) => {
+      if (a.full_name.toLowerCase() < b.full_name.toLowerCase()) {
+        return -1;
+      }
+      if (a.full_name.toLowerCase() > b.full_name.toLowerCase()) {
+        return 1;
+      }
+      return 0;
+    });
     dispatch({
       type: GET_CONTACTS,
-      payload: res.data,
+      payload: sortedData,
     });
   } catch (err) {
     const errors = err.response.data.errors;
@@ -56,11 +65,13 @@ export const updateContact = (id, contactData) => async (dispatch) => {
 
 export const deleteContact = (id) => async (dispatch) => {
   try {
-    await axios.delete(`/api/contacts/${id}`);
-    dispatch({
-      type: DEL_CONTACT,
-      payload: id,
-    });
+    const res = await axios.delete(`http://localhost:8000/api/contacts/${id}/`);
+    if (res.status === 204) {
+      dispatch({
+        type: DEL_CONTACT,
+        payload: id,
+      });
+    }
   } catch (err) {
     const errors = err.response.data.errors;
 

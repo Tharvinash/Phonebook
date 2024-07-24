@@ -20,7 +20,6 @@ const AddContact = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     props.addContact({
       full_name: fullName,
       phone_number: phoneNumber,

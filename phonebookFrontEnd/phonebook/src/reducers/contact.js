@@ -1,7 +1,8 @@
-import { GET_CONTACTS } from '../actions/type';
+import { GET_CONTACTS, DEL_CONTACT } from '../actions/type';
 
 const initialState = {
   contacts: [],
+  deletedId: 0,
 };
 
 function contactsReducer(state = initialState, action) {
@@ -11,6 +12,11 @@ function contactsReducer(state = initialState, action) {
       return {
         ...state,
         contacts: payload,
+      };
+    case DEL_CONTACT:
+      return {
+        ...state,
+        deletedId: payload,
       };
     default:
       return state;

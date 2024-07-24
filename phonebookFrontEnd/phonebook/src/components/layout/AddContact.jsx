@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import { getContacts } from '../../actions/contact';
 
-const AddContact = () => {
+const AddContact = (props) => {
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -15,6 +18,8 @@ const AddContact = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    props.getContacts()
+    props.setAlert('GG', 'danger')
     console.log(formData);
   };
 
@@ -47,4 +52,4 @@ const AddContact = () => {
   );
 };
 
-export default AddContact;
+export default connect(null, { setAlert, getContacts })(AddContact);

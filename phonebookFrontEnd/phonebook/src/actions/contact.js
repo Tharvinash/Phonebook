@@ -9,8 +9,18 @@ import {
 
 const URL = 'http://localhost:8000/api/contacts/';
 
+const formatPhoneNumber = (phoneNumber) => {
+  if (typeof phoneNumber === 'string' && phoneNumber.length === 10) {
+    return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(
+      3,
+      6
+    )} ${phoneNumber.slice(6)}`;
+  }
+  return phoneNumber;
+};
+
 /**
- * Fetches contact data from the server, sorts it by full name, and dispatches an action to update the Redux store.
+ * Fetches contact data from the server, sorts it by full name, format the phone number and dispatches an action to update the Redux store.
  *
  * @async
  * @function getContacts
@@ -30,9 +40,15 @@ export const getContacts = () => async (dispatch) => {
       }
       return 0;
     });
+
+    const formattedData = sortedData.map((contact) => ({
+      ...contact,
+      phone_number: formatPhoneNumber(contact.phone_number),
+    }));
+
     dispatch({
       type: GET_CONTACTS,
-      payload: sortedData,
+      payload: formattedData,
     });
   } catch (err) {
     const errors = err.response.data.errors;

@@ -1,4 +1,3 @@
-
 # Phonebook Application
 
 A full-stack phonebook application using Django for the backend and React for the frontend.
@@ -8,6 +7,7 @@ A full-stack phonebook application using Django for the backend and React for th
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
+
 - Python 3.9 or higher
 - Node.js 14 or higher
 - npm
@@ -20,31 +20,41 @@ Before you begin, ensure you have the following installed:
    git clone https://github.com/Tharvinash/Phonebook.git
    cd phonebookBackEnd/phonebook
 
+   ```
+
 2. **Create a Virtual Environment**
 
    ```bash
    python -m venv venv
+
+   ```
 
 3. **Activate the Virtual Environment**
 
    ```bash
    venv\Scripts\activate
 
+   ```
+
 4. **Install Dependenciest**
 
    ```bash
    pip install -r requirements.txt
+
+   ```
 
 5. **Install Dependenciest**
 
    ```bash
    python manage.py migrate
 
+   ```
 
 6. **Start the Development Server**
 
    ```bash
    python manage.py runserver
+   ```
 
 ### Frontend (React)
 
@@ -53,18 +63,30 @@ Before you begin, ensure you have the following installed:
    ```bash
    cd phonebookFrontEnd/phonebook
 
+   ```
+
 2. **Install Dependencies**
 
    ```bash
    npm install
 
+   ```
+
 3. **Start the Development Server**
 
    ```bash
    npm run dev
+   ```
 
 ### API Endpoints
+
 - GET /api/contacts/ - Retrieve all contacts
 - POST /api/contacts/ - Create a new contact
 - PUT /api/contacts/{id}/ - Update a contact by ID
 - DELETE /api/contacts/{id}/ - Delete a contact by ID
+
+## Screenshots
+
+![App Screenshot 1](https://github.com/user-attachments/assets/18a51134-ef9f-419a-ab46-714e61217189)
+
+![App Screenshot 2](https://github.com/user-attachments/assets/5fe0df4e-d92f-47e6-85c2-5440e680743d)

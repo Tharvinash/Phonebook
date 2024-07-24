@@ -39,6 +39,20 @@ const AddContact = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    const phoneNumberPattern = /^[0-9]{10}$/; // Regex for 10 digits
+    const namePattern = /^[a-zA-Z\s]+$/; // Regex for alphabetic characters and spaces
+
+    if (!phoneNumberPattern.test(phoneNumber)) {
+      alert('Phone number must be a 10-digit number.');
+      return;
+    }
+
+    if (!namePattern.test(fullName)) {
+      alert('Full name must only contain alphabetic characters and spaces.');
+      return;
+    }
+
     const contactData = {
       full_name: fullName,
       phone_number: phoneNumber,

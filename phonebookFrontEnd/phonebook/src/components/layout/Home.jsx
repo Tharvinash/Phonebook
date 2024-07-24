@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getContacts, deleteContact } from '../../actions/contact';
+import {
+  getContacts,
+  deleteContact,
+  contentToBeUpdated,
+} from '../../actions/contact';
+import { useNavigate } from 'react-router-dom';
 
 const Home = (props) => {
-  console.log(props);
+  const navigate = useNavigate();
+
   useEffect(() => {
     props.getContacts();
   }, [props.contacts.deletedId]);
@@ -14,6 +20,7 @@ const Home = (props) => {
     full_name: '',
     phone_number: '',
   });
+  
   if (!props.contacts) {
     return <div>Loading...</div>;
   }
@@ -30,7 +37,11 @@ const Home = (props) => {
   const deleteContact = (id) => {
     props.deleteContact(id);
     handleCloseAlert();
-    props.getContacts();
+  };
+
+  const contentToBeUpdated = (contact) => {
+    props.contentToBeUpdated(contact);
+    navigate('/add-contact');
   };
 
   const renderAlert = () => {
@@ -101,7 +112,11 @@ const Home = (props) => {
               <td>{contact.phone_number}</td>
               <td>
                 <div className='icon-button-group'>
-                  <button type='button' className='btn btn-success icon-btn'>
+                  <button
+                    type='button'
+                    className='btn btn-success icon-btn'
+                    onClick={() => contentToBeUpdated(contact)}
+                  >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       width='16'
@@ -145,7 +160,10 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => ({
   contacts: state.contact,
-  deletedId: state.deletedId,
 });
 
-export default connect(mapStateToProps, { getContacts, deleteContact })(Home);
+export default connect(mapStateToProps, {
+  getContacts,
+  deleteContact,
+  contentToBeUpdated,
+})(Home);

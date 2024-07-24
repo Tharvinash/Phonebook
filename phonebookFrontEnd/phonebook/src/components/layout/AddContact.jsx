@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setAlert } from '../../actions/alert';
-import { getContacts, addContact } from '../../actions/contact';
+import {
+  getContacts,
+  addContact,
+  contentToBeUpdated,
+  updateContact,
+} from '../../actions/contact';
 import { useNavigate } from 'react-router-dom';
 
 const AddContact = (props) => {
@@ -10,7 +14,22 @@ const AddContact = (props) => {
     fullName: '',
     phoneNumber: '',
   });
+  const [isEdit, setIsEdit] = useState(false);
   const { fullName, phoneNumber } = formData;
+  let id;
+
+  useEffect(() => {
+    const contact = props.contact.contact;
+    if (contact) {
+      id = contact.id;
+      setFormData({
+        ...formData,
+        fullName: contact.full_name,
+        phoneNumber: contact.phone_number,
+      });
+      setIsEdit(true);
+    }
+  }, [props.contact.contact]);
 
   const onChange = (e) =>
     setFormData({
@@ -20,10 +39,15 @@ const AddContact = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    props.addContact({
-      full_name: fullName,
-      phone_number: phoneNumber,
-    });
+    if (isEdit) {
+      props.updateContact(id, formData);
+    } else {
+      props.addContact({
+        full_name: fullName,
+        phone_number: phoneNumber,
+      });
+    }
+    props.contentToBeUpdated(null);
     navigate('/');
   };
 
@@ -50,10 +74,19 @@ const AddContact = (props) => {
         />
       </div>
       <button type='submit' className='btn btn-primary'>
-        Add
+        {isEdit ? 'Edit' : 'Add'}
       </button>
     </form>
   );
 };
 
-export default connect(null, { setAlert, getContacts, addContact })(AddContact);
+const mapStateToProps = (state) => ({
+  contact: state.contact,
+});
+
+export default connect(mapStateToProps, {
+  getContacts,
+  addContact,
+  contentToBeUpdated,
+  updateContact,
+})(AddContact);

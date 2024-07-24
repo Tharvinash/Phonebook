@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { GET_CONTACTS, ADD_CONTACT, UPDATE_CONTACT, DEL_CONTACT } from './type';
+import {
+  GET_CONTACTS,
+  ADD_CONTACT,
+  UPDATE_CONTACT,
+  DEL_CONTACT,
+  CONTACT_TOBE_UPDATED,
+} from './type';
 
 export const getContacts = () => async (dispatch) => {
   try {
@@ -49,7 +55,10 @@ export const addContact = (contactData) => async (dispatch) => {
 
 export const updateContact = (id, contactData) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/contacts/${id}`, contactData);
+    const res = await axios.put(
+      `http://localhost:8000/api/contacts/${id}`,
+      contactData
+    );
     dispatch({
       type: UPDATE_CONTACT,
       payload: res.data,
@@ -79,4 +88,11 @@ export const deleteContact = (id) => async (dispatch) => {
       errors.forEach((error) => console.log(error.msg));
     }
   }
+};
+
+export const contentToBeUpdated = (contactData) => (dispatch) => {
+  dispatch({
+    type: CONTACT_TOBE_UPDATED,
+    payload: contactData,
+  });
 };

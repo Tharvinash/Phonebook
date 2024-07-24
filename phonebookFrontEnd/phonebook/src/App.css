@@ -3,3 +3,16 @@
   margin: 0 auto;
   padding: 1rem;
 }
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.icon-button-group {
+  display: flex;
+  gap: 10px; /* Adjust the gap value as needed */
+}

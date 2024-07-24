@@ -6,7 +6,6 @@ const initialState = {
 
 function contactsReducer(state = initialState, action) {
   const { type, payload } = action;
-
   switch (type) {
     case GET_CONTACTS:
       return {

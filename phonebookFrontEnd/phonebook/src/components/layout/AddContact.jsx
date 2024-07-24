@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
-import { getContacts } from '../../actions/contact';
+import { getContacts, addContact } from '../../actions/contact';
+import { useNavigate } from 'react-router-dom';
 
 const AddContact = (props) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -18,9 +20,12 @@ const AddContact = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    props.getContacts()
-    props.setAlert('GG', 'danger')
     console.log(formData);
+    props.addContact({
+      full_name: fullName,
+      phone_number: phoneNumber,
+    });
+    navigate('/');
   };
 
   return (
@@ -52,4 +57,4 @@ const AddContact = (props) => {
   );
 };
 
-export default connect(null, { setAlert, getContacts })(AddContact);
+export default connect(null, { setAlert, getContacts, addContact })(AddContact);

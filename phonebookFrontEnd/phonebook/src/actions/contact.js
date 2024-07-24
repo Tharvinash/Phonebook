@@ -3,7 +3,9 @@ import { GET_CONTACTS, ADD_CONTACT, UPDATE_CONTACT, DEL_CONTACT } from './type';
 
 export const getContacts = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:8000/api/contacts/?format=json');
+    const res = await axios.get(
+      'http://localhost:8000/api/contacts/?format=json'
+    );
     dispatch({
       type: GET_CONTACTS,
       payload: res.data,
@@ -19,7 +21,10 @@ export const getContacts = () => async (dispatch) => {
 
 export const addContact = (contactData) => async (dispatch) => {
   try {
-    const res = await axios.post('/api/contacts/', contactData);
+    const res = await axios.post(
+      'http://localhost:8000/api/contacts/',
+      contactData
+    );
     dispatch({
       type: ADD_CONTACT,
       payload: res.data,

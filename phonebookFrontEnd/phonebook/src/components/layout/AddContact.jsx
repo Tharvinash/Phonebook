@@ -18,6 +18,11 @@ const AddContact = (props) => {
   const [contactId, setContactId] = useState(0);
   const { fullName, phoneNumber } = formData;
 
+  const removePhoneNumberFormatting = (formattedPhoneNumber) => {
+    return formattedPhoneNumber.replace(/[-\s]/g, '');
+  };
+
+  
   useEffect(() => {
     const contact = props.contact.contact;
     if (contact) {
@@ -25,7 +30,7 @@ const AddContact = (props) => {
       setFormData({
         ...formData,
         fullName: contact.full_name,
-        phoneNumber: contact.phone_number,
+        phoneNumber: removePhoneNumberFormatting(contact.phone_number),
       });
       setIsEdit(true);
     }

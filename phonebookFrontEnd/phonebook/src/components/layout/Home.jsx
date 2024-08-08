@@ -6,6 +6,7 @@ import {
   contentToBeUpdated,
 } from '../../actions/contact';
 import { useNavigate } from 'react-router-dom';
+import { enqueueSnackbar } from 'notistack'
 
 const Home = (props) => {
   const navigate = useNavigate();
@@ -13,6 +14,10 @@ const Home = (props) => {
   useEffect(() => {
     props.getContacts();
   }, [props.contacts.deletedId]);
+
+  useEffect(() => {
+    props.contentToBeUpdated(null);
+  }, []);
 
   const [showAlert, setShowAlert] = useState(false);
   const [contact, setContact] = useState({
@@ -37,6 +42,7 @@ const Home = (props) => {
   const deleteContact = (id) => {
     props.deleteContact(id);
     handleCloseAlert();
+    enqueueSnackbar(`Contact deleted successfully`, { variant: 'success' });
   };
 
   const contentToBeUpdated = (contact) => {
@@ -46,49 +52,66 @@ const Home = (props) => {
 
   const renderAlert = () => {
     return (
-      <div
-        style={{ display: showAlert ? 'block' : 'none' }}
-        className={`modal fade  ${showAlert ? 'show' : ''}`}
-        tabIndex='-1'
-      >
-        <div className='modal-dialog'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <h5 className='modal-title'>Delete</h5>
-              <button
-                type='button'
-                className='btn-close'
-                data-bs-dismiss='modal'
-                aria-label='Close'
-                onClick={handleCloseAlert}
-              ></button>
-            </div>
-            <div className='modal-body'>
-              <p>
-                Are you sure you want to delete{' '}
-                {contact?.full_name ?? contact.full_name}
-              </p>
-            </div>
-            <div className='modal-footer'>
-              <button
-                type='button'
-                className='btn btn-secondary'
-                data-bs-dismiss='modal'
-                onClick={handleCloseAlert}
-              >
-                Cancel
-              </button>
-              <button
-                type='button'
-                className='btn btn-primary'
-                onClick={() => deleteContact(contact.id)}
-              >
-                Delete
-              </button>
+      <>
+        {/* Dark Overlay */}
+        {showAlert && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              zIndex: 1040,
+            }}
+          ></div>
+        )}
+
+        <div
+          style={{ display: showAlert ? 'block' : 'none' }}
+          className={`modal fade  ${showAlert ? 'show' : ''}`}
+          tabIndex='-1'
+        >
+          <div className='modal-dialog'>
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <h5 className='modal-title'>Delete</h5>
+                <button
+                  type='button'
+                  className='btn-close'
+                  data-bs-dismiss='modal'
+                  aria-label='Close'
+                  onClick={handleCloseAlert}
+                ></button>
+              </div>
+              <div className='modal-body'>
+                <p>
+                  Are you sure you want to delete{' '}
+                  <b>{contact?.full_name ?? contact.full_name}</b>
+                </p>
+              </div>
+              <div className='modal-footer'>
+                <button
+                  type='button'
+                  className='btn btn-secondary'
+                  data-bs-dismiss='modal'
+                  onClick={handleCloseAlert}
+                >
+                  Cancel
+                </button>
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  onClick={() => deleteContact(contact.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   };
 

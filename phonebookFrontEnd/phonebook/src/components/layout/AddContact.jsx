@@ -7,6 +7,7 @@ import {
   updateContact,
 } from '../../actions/contact';
 import { useNavigate } from 'react-router-dom';
+import { enqueueSnackbar } from 'notistack';
 
 const AddContact = (props) => {
   const navigate = useNavigate();
@@ -22,7 +23,6 @@ const AddContact = (props) => {
     return formattedPhoneNumber.replace(/[-\s]/g, '');
   };
 
-  
   useEffect(() => {
     const contact = props.contact.contact;
     if (contact) {
@@ -49,12 +49,17 @@ const AddContact = (props) => {
     const namePattern = /^[a-zA-Z\s]+$/; // Regex for alphabetic characters and spaces
 
     if (!phoneNumberPattern.test(phoneNumber)) {
-      alert('Phone number must be a 10-digit number.');
+      enqueueSnackbar('Phone number must be a 10-digit number', {
+        variant: 'error',
+      });
       return;
     }
 
     if (!namePattern.test(fullName)) {
-      alert('Full name must only contain alphabetic characters and spaces.');
+      enqueueSnackbar(
+        'Full name must only contain alphabetic characters and spaces',
+        { variant: 'error' }
+      );
       return;
     }
 
@@ -69,6 +74,9 @@ const AddContact = (props) => {
       props.addContact(contactData);
     }
 
+    enqueueSnackbar(`Contact ${isEdit ? 'updated' : 'added'} successfully`, {
+      variant: 'success',
+    });
     props.contentToBeUpdated(null);
     navigate('/');
   };
@@ -76,8 +84,9 @@ const AddContact = (props) => {
   return (
     <form className='mt-5' onSubmit={(e) => onSubmit(e)}>
       <div className='mb-3'>
-        <label className='form-label'>Full Name</label>
+        <label className='form-label'>Full Name*</label>
         <input
+          autoComplete='off'
           className='form-control'
           name='fullName'
           value={fullName}
@@ -86,8 +95,9 @@ const AddContact = (props) => {
         />
       </div>
       <div className='mb-3'>
-        <label className='form-label'>Phone Number</label>
+        <label className='form-label'>Phone Number*</label>
         <input
+          autoComplete='off'
           className='form-control'
           name='phoneNumber'
           value={phoneNumber}
@@ -96,7 +106,7 @@ const AddContact = (props) => {
         />
       </div>
       <button type='submit' className='btn btn-primary'>
-        {isEdit ? 'Edit' : 'Add'}
+        {isEdit ? 'Save' : 'Add'}
       </button>
     </form>
   );

@@ -30,7 +30,7 @@ const formatPhoneNumber = (phoneNumber) => {
  */
 export const getContacts = () => async (dispatch) => {
   try {
-    const res = await axios.get(`${URL}?format=json`);
+    const res = await axios.get(`${URL}`);
     const sortedData = res.data.sort((a, b) => {
       if (a.full_name.toLowerCase() < b.full_name.toLowerCase()) {
         return -1;
